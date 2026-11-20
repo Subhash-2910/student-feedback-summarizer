@@ -37,6 +37,20 @@ short structured summary every time, at about a quarter of the length of the fee
 Training longer helped, and a bigger base model helped more: the larger model generalises better to the
 unseen phrasings.
 
+## Adapter merging (`python -m app.merge`, see [merge.json](merge.json))
+
+Merging folds each adapter into its weight: `W <- W + (alpha/r) * B @ A`, then removes the LoRA wrapper.
+
+| | base + adapter | merged |
+|---|---|---|
+| identical summaries on 30 test comments | | **30 / 30** |
+| largest next-token logit difference | | 0.005 (float rounding) |
+| time per summary (CPU, M3) | 208 ms | 196 ms (-6%) |
+| what you ship | gpt2 download + 9.5 MB adapter + LoRA code | one 252 MB folder (fp16), plain `transformers` |
+
+The speed gain is small because LoRA adds little work to a model this size; the real win is a plain model folder
+that loads with `AutoModelForCausalLM.from_pretrained("merged/default")` and no LoRA code. The UI uses it when present.
+
 ## Hand-written comments (checked by hand)
 
 These five were written by hand, not by the dataset script, to see how the model copes with real-sounding text

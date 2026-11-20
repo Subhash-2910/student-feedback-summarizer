@@ -95,3 +95,21 @@ def load_adapter(model: nn.Module, path: str | Path) -> dict:
     if unexpected or any("lora_" in k for k in missing):
         raise ValueError(f"adapter does not fit this model: missing={missing[:3]} unexpected={unexpected[:3]}")
     return cfg
+
+
+@torch.no_grad()
+def merge_lora(model: nn.Module) -> nn.Module:
+    """Fold every adapter into its base weight (W <- W + delta) and swap the LoRA wrapper back out
+    for the plain layer. The result is an ordinary transformers model: same outputs, no extra matmuls,
+    and it can be saved with save_pretrained() and loaded without any LoRA code."""
+    wrapped = [(name, mod) for name, mod in model.named_modules() if isinstance(mod, LoRALinear)]
+    for name, mod in wrapped:
+        mod.base.weight += mod.delta_weight().to(mod.base.weight.dtype)
+        parent_name, _, child = name.rpartition(".")
+        parent = model.get_submodule(parent_name) if parent_name else model
+        setattr(parent, child, mod.base)
+    if hasattr(model, "lora_config"):
+        del model.lora_config
+    for p in model.parameters():
+        p.requires_grad = True
+    return model

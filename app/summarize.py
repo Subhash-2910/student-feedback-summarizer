@@ -80,11 +80,11 @@ def load_model(adapter: str | None = "default", merged: bool = True, device: str
 
     - adapter=None: the plain base model (the baseline)
     - merged=True and merged/<adapter> exists: the pre-merged model (fastest, no LoRA code needed)
-    - otherwise: base model with the LoRA adapter injected
+    - otherwise: base model + adapter, merged in memory (same outputs, no LoRA overhead)
     """
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    from app.lora import load_adapter
+    from app.lora import load_adapter, merge_lora
     from app.train import BASE_MODEL
 
     if adapter and merged and (MERGED_DIR / adapter / "config.json").exists():
@@ -100,5 +100,6 @@ def load_model(adapter: str | None = "default", merged: bool = True, device: str
         tok = AutoTokenizer.from_pretrained(base)
         if adapter:
             load_adapter(model, ADAPTERS_DIR / adapter)
+            merge_lora(model)
     tok.pad_token = tok.eos_token
     return model.to(device).eval(), tok

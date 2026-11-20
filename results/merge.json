@@ -1,0 +1,11 @@
+{
+  "adapter": "default",
+  "base_model": "gpt2",
+  "max_logit_difference": 0.0049591064453125,
+  "same_summaries": 30,
+  "checked": 30,
+  "ms_per_summary_adapter": 207.9,
+  "ms_per_summary_merged": 196.0,
+  "adapter_file_mb": 9.47,
+  "merged_model_mb_fp16": 252.5
+}
