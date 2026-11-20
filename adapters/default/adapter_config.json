@@ -1,0 +1,21 @@
+{
+  "r": 8,
+  "alpha": 16,
+  "dropout": 0.05,
+  "targets": [
+    "c_attn",
+    "c_proj",
+    "c_fc"
+  ],
+  "base_model": "distilgpt2",
+  "course": null,
+  "examples": 400,
+  "epochs": 3,
+  "lr": 0.0002,
+  "loss_history": [
+    2.839658488035202,
+    0.6457223266363143,
+    0.5042149114608765
+  ],
+  "train_seconds": 34.7
+}

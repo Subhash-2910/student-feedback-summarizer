@@ -10,3 +10,7 @@ __pycache__/
 # Local data
 data/
 *.db
+
+# Model downloads and the big merged model (rebuild with `python -m app.merge`)
+.cache/
+merged/
