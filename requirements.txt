@@ -1,7 +1,7 @@
-streamlit
-httpx
-pytest
-torch
-transformers
-datasets
-numpy
+# CPU is enough: on a Mac, Apple-silicon GPUs (MPS) are used automatically for training.
+torch>=2.4
+transformers>=4.56
+streamlit>=1.40
+pandas>=2.0
+numpy>=1.26
+pytest>=8.0
