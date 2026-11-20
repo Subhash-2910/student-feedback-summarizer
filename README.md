@@ -34,7 +34,8 @@ On 60 held-out test comments written with **phrasings the model never saw in tra
 
 **Limits.** The data is synthetic (400 template-built comments about 10 fixed aspects), so the model can only
 name those 10 aspects. On comments with 3–4 points it often drops one: about 1 in 3 aspect mentions is wrong or
-missing. Of 5 hand-written comments, 1 was summarised perfectly, and none named an aspect that wasn't there.
+missing. Of 5 hand-written comments, 1 was summarised perfectly and 4 named no wrong aspect; it misses things
+more often than it invents them.
 See [results/README.md](results/README.md#limits).
 
 ## Run it
@@ -66,7 +67,8 @@ make test           # 25 tests; they use a tiny random GPT-2, so they run offlin
 | 4. evaluation | `python -m app.evaluate` | `results/metrics.*`, `results/samples.md` |
 | 5. merging | `python -m app.merge` | `merged/default/` (fp16), `results/merge.json` |
 
-**Docker** (builds the merged model into the image):
+**Docker** (builds the merged model into the image; needs about 3 GB of free disk. This build was not run while the
+project was developed because the dev machine was short on disk space, so the local commands above are the tested path):
 
 ```bash
 docker build -t feedback-summarizer . && docker run -p 8080:8080 feedback-summarizer   # http://localhost:8080
