@@ -1,0 +1,38 @@
+{
+  "n_test": 60,
+  "systems": {
+    "lead-1 baseline": {
+      "rouge1": 0.052,
+      "rouge2": 0.012,
+      "rougeL": 0.052,
+      "aspect_f1": 0.0,
+      "overall_acc": 0.0,
+      "format_ok": 0.0,
+      "compression": 0.405,
+      "words": 9.767,
+      "ms_per_summary": 0.0
+    },
+    "base GPT-2": {
+      "rouge1": 0.01,
+      "rouge2": 0.0,
+      "rougeL": 0.01,
+      "aspect_f1": 0.0,
+      "overall_acc": 0.0,
+      "format_ok": 0.0,
+      "compression": 0.862,
+      "words": 23.067,
+      "ms_per_summary": 499.2
+    },
+    "LoRA (default)": {
+      "rouge1": 0.903,
+      "rouge2": 0.714,
+      "rougeL": 0.85,
+      "aspect_f1": 0.689,
+      "overall_acc": 0.883,
+      "format_ok": 1.0,
+      "compression": 0.247,
+      "words": 6.233,
+      "ms_per_summary": 209.2
+    }
+  }
+}

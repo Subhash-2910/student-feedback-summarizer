@@ -1,6 +1,6 @@
 """Milestone 2: train a LoRA adapter on GPT-2 to summarise student feedback.
 
-    python -m app.train                       # distilgpt2, adapter saved to adapters/default
+    python -m app.train                       # GPT-2, adapter saved to adapters/default
     python -m app.train --name chemistry --course "Organic Chemistry"
 """
 from __future__ import annotations
@@ -16,7 +16,7 @@ import torch
 from app.dataset import PROMPT, load_jsonl
 from app.lora import count_parameters, inject_lora, save_adapter
 
-BASE_MODEL = "distilgpt2"
+BASE_MODEL = "gpt2"
 
 
 def pick_device() -> str:
@@ -88,10 +88,10 @@ def main(argv=None):
     ap.add_argument("--name", default="default", help="adapter name: saved to adapters/<name>")
     ap.add_argument("--course", default=None, help="train only on feedback for this course")
     ap.add_argument("--base", default=BASE_MODEL)
-    ap.add_argument("--epochs", type=int, default=3)
-    ap.add_argument("--lr", type=float, default=2e-4)
-    ap.add_argument("--rank", type=int, default=8)
-    ap.add_argument("--alpha", type=int, default=16)
+    ap.add_argument("--epochs", type=int, default=10)
+    ap.add_argument("--lr", type=float, default=3e-4)
+    ap.add_argument("--rank", type=int, default=16)
+    ap.add_argument("--alpha", type=int, default=32)
     args = ap.parse_args(argv)
 
     records = load_jsonl(args.data)
